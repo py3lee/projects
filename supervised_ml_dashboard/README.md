@@ -50,5 +50,5 @@ Run all cells to display the dashboard.
 
 
 
-Check out the detailed [user guide](user_guide/Supervised Model Dashboard.html) for further details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
+Check out the detailed [user guide](user_guide/Supervised_Model_Dashboard.md) for further details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
 
