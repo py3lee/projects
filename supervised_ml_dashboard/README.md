@@ -1,6 +1,6 @@
 # Workflow
 
-![](./user_guide/_static/sup_dashbrd/notebook_workflow.png)
+![](user_guide/_static/sup_dashbrd/notebook_workflow.png)
 
 
 
