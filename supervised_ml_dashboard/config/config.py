@@ -168,6 +168,20 @@ HISTORY_SEARCH = {
                         'ventricular', 'fibrillation','arrhythmia','angina']
 }
 
+SYMP_ERROR = [
+    'product administered to patient of inappropriate age',
+    'unevaluable event',
+    'poor quality product administered',
+    'incorrect dose administered',
+    'inappropriate schedule of product administration',
+    'poor quality product administered,product storage error,product temperature excursion issue',
+    'wrong product administered',
+    'product storage error',
+    'interchange of vaccine products',
+    'underdose',
+    'no adverse event'
+]
+
 SYMP_SEARCH = {
     
     'SYMP_SERIOUS_ALLERGY': ['anaphylaxis','anaphylactic shock', 'anaphylactic', 'anaphylactoid', 

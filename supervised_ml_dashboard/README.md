@@ -54,4 +54,4 @@ Check out the detailed [user guide](user_guide/Supervised_Model_Dashboard.md) fo
 
 ## EDA 
 
-See the respective Exploratory Data Analysis (EDA) notebooks (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the CustomIngestor and CustomPreprocessor classes.   
+See the respective [Exploratory Data Analysis (EDA) notebooks](notebook/EDA) (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the CustomIngestor and CustomPreprocessor classes.   

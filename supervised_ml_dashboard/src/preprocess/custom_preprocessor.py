@@ -39,6 +39,10 @@ class CustomPreprocessor():
                   as keys and list of none synonym strings to match as values
                 - HISTORY_SEARCH (dict): Dictionary of key-value pairs with new column names
                   as keys and list of substrings to match in HISTORY column as values 
+                - SYMP_ERROR (list):  list of substrings to search for in SYMP. A match (True) indicates that the error 
+                  term is present in SYMP. The substrings stated in symp_error are medical or administrative errors 
+                  which should not have occurred in the first place or no adverse event and are therefore excluded 
+                  from modelling.
                 - SYMP_SEARCH (dict): Dictionary of key-value pairs with new column names
                   as keys and list of substrings to match in SYMP column as values 
                 - TARGET_COMPOSITE (list): list of binary features which indicate 
@@ -63,6 +67,7 @@ class CustomPreprocessor():
             None
         )
         self.history_search = getattr(cfg, "HISTORY_SEARCH", None)
+        self.symp_error = getattr(cfg, "SYMP_ERROR", None)
         self.symp_search = getattr(cfg, "SYMP_SEARCH", None) 
         self.target_composite_list = getattr(cfg, "TARGET_COMPOSITE", None)
         self.filepath = getattr(cfg, "FILEPATH", None)
@@ -219,6 +224,32 @@ class CustomPreprocessor():
             logger.debug(f"Dropping {row_condition.sum()} for {key} {value}")
             df = df.loc[~row_condition, :]
         
+        return df
+
+    def drop_error_symp(
+        self,
+        df: pd.DataFrame,
+        symp_error: list
+    ) -> pd.DataFrame:
+        """Drops rows if SYMP values match any of the substrings stated in the symp_error list specified in the config.
+
+        Args:
+            df (pd.DataFrame): main DataFrame
+            symp_error (list): list of substrings to search for in SYMP. A match (True) indicates that the error term is
+            present in SYMP. The substrings stated in symp_error are medical or administrative errors which should
+            not have occurred in the first place or no adverse event and are therefore excluded from modelling. 
+            (example: Product administered to patient of inappropriate age)
+
+        Returns:
+            df (pd.DataFrame): main DataFrame with erroneous rows dropped for SYMP column
+        """
+        symp_error = [string.lower() for string in symp_error]
+        error_mask = df['SYMP'].str.contains('|'.join(symp_error), na=False)
+
+        logger.debug(f"Dropping {error_mask.sum()} error rows in SYMP")
+
+        df = df.loc[error_mask == False, :]
+
         return df
     
     def impute_missing(
@@ -398,7 +429,7 @@ class CustomPreprocessor():
                 col = 'HISTORY', 
                 searchfor = value, 
                 new_col = key
-            )   
+            )
 
         return df  
 
@@ -430,7 +461,7 @@ class CustomPreprocessor():
                 searchfor = value,
                 new_col = key
             )
-                  
+
         return df 
 
     def create_feature_dum(
@@ -506,7 +537,7 @@ class CustomPreprocessor():
                     0, 
                     regex = True
                 )
-        
+
         return df
     
     def create_target_composite(
@@ -549,10 +580,12 @@ class CustomPreprocessor():
         return df
 
     def run(self):
-        """Runs all required methods to clean the merged dataset and engineer features required for modelling phase.
+        """Runs all required methods to clean the merged dataset and engineer features required for visualization
+        and modelling phase.
 
         Returns: 
             df_model (pd.DataFrame): processed pandas DataFrame for modelling 
+            df_visualize (pd.DataFrame): processed pandas DataFrame for further EDA analyses
         
         """
         df = self.to_lowercase(
@@ -561,6 +594,7 @@ class CustomPreprocessor():
         )
 
         df = self.drop_error_rows(df,check_error = self.check_error)
+        df = self.drop_error_symp(df, symp_error = self.symp_error)
 
         df = df.dropna(subset=self.drop_na).reset_index(drop=True) 
 
