@@ -52,3 +52,6 @@ Run all cells to display the dashboard.
 
 Check out the detailed [user guide](user_guide/Supervised_Model_Dashboard.md) for further details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
 
+## EDA 
+
+See the respective Exploratory Data Analysis (EDA) notebooks (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the CustomIngestor and CustomPreprocessor classes.   
