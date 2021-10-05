@@ -44,7 +44,7 @@ This dashboard displays the following for a Supervised machine learning model:
 
 The Dashboard displays from a Jupyter notebook. 
 
-Open the Supervised Model Dashboard notebook by navigating to `notebook` > `Supervised_Model_Dashboard.ipynb`
+Open the [Supervised Model Dashboard notebook](notebook/Supervised_Model_Dashboard.ipynb) (`notebook` > `Supervised_Model_Dashboard.ipynb`)
 
 Run all cells to display the dashboard. 
 
