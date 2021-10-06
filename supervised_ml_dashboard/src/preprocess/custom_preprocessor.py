@@ -187,6 +187,10 @@ class CustomPreprocessor():
         
         """
         condition = df[col] < ref_value
+        
+        logger.info(
+            f"Replacing {condition.sum()} rows in {col} with values from {replace_col}"
+        )
 
         df[col] = np.where(condition, df[replace_col], df[col])
         
@@ -221,7 +225,10 @@ class CustomPreprocessor():
                 col = key,
                 criteria = value
             )
-            logger.debug(f"Dropping {row_condition.sum()} for {key} {value}")
+            total_drop = row_condition.sum()
+            percent_drop = round(total_drop/len(df)*100, 2)
+            logger.info(f"Dropping {total_drop} ({percent_drop}%) for {key} {value}")
+
             df = df.loc[~row_condition, :]
         
         return df
@@ -246,7 +253,9 @@ class CustomPreprocessor():
         symp_error = [string.lower() for string in symp_error]
         error_mask = df['SYMP'].str.contains('|'.join(symp_error), na=False)
 
-        logger.debug(f"Dropping {error_mask.sum()} error rows in SYMP")
+        logger.info(
+            f"Dropping {error_mask.sum()} ({round(error_mask.sum()/len(df)*100, 2)}%) error rows in SYMP"
+        )
 
         df = df.loc[error_mask == False, :]
 
@@ -269,13 +278,39 @@ class CustomPreprocessor():
             df (pd.DataFrame): main DataFrame with missing values for specified columns filled
         """
         for key, value in impute_na.items():
-
-            logger.debug(
-                f"{df[key].isnull().sum()} ({round(df[key].isnull().sum()/len(df)*100, 2)}%) in {key} filled with {value}"
+            
+            total_na = df[key].isnull().sum()
+            percent_na = round(total_na/len(df)*100, 2)
+            logger.info(
+                f"{total_na} ({percent_na}%) in {key} filled with {value}"
             )
 
             df[key] = df[key].fillna(value)
         
+        return df
+    
+    def drop_missing(
+        self, 
+        df: pd.DataFrame,
+        drop_na: list
+    ) -> pd.DataFrame:
+        """Drop rows with NA values for the columns specified in the configuration file. 
+
+        Args:
+            df (pd.DataFrame): main DataFrame
+            drop_na (list): list of columns of which rows with NA will be dropped.
+
+        Returns:
+            df (pd.DataFrame): main DataFrame with NA values for specified columns dropped. 
+        """
+        for col in drop_na:
+            total_na = df[col].isnull().sum()
+            percent_na = round(total_na/len(df)*100,2)
+            logger.info(
+                f"Dropping {total_na} ({percent_na}%) in {col}"
+            )
+        df = df.dropna(subset=drop_na).reset_index(drop=True) 
+
         return df
 
     def to_lowercase(
@@ -588,64 +623,54 @@ class CustomPreprocessor():
             df_visualize (pd.DataFrame): processed pandas DataFrame for further EDA analyses
         
         """
-        df = self.to_lowercase(
-            df = self.df, 
-            data_dict = self.data_dict
-        )
+        df = self.to_lowercase(df = self.df, data_dict = self.data_dict)
 
-        df = self.drop_error_rows(df,check_error = self.check_error)
+        df = self.drop_error_rows(df, check_error = self.check_error)
         df = self.drop_error_symp(df, symp_error = self.symp_error)
 
-        df = df.dropna(subset=self.drop_na).reset_index(drop=True) 
-
+        df = self.drop_missing(df, drop_na = self.drop_na)
         df = self.impute_missing(df, self.impute_na)
 
-        df = self.cal_numdays(
-            df = df, 
-            date_diff = self.date_diff
-        )
-
-        df = self.replace_string_values(
-            df = df, 
-            replace_values = self.replace_values
-        )
-
-        df = self.clip_upper_limit(
-            df = df, 
-            clip_upper = self.clip_upper
-        )
+        df = self.cal_numdays(df, date_diff = self.date_diff)
 
         # feature engineering
+        df = self.create_feature_dum(
+            df, 
+            replace_none_synonyms = self.replace_none_synonyms
+        )
+        
         df = self.create_feature_history(
-            df = df, 
+            df, 
             history_search = self.history_search
         )   
 
         df = self.create_feature_symp(
-            df = df, 
+            df, 
             symp_search = self.symp_search
-        )
-
-        df = self.create_feature_dum(
-            df = df, 
-            replace_none_synonyms = self.replace_none_synonyms
         )
 
         df = self.create_feature_nur_home(df)
 
         df = self.create_target_composite(
-            df = df, 
+            df, 
             target_composite_list = self.target_composite_list
         )
 
         # csv for visualization and further EDA
         df_visualize = df
         full_clean_filepath = Path(__file__).parents[2] / self.clean_filepath
-        df.to_csv(
+        df_visualize.to_csv(
             full_clean_filepath, 
             index=False
         )
         logger.info(f"Visualization csv saved to: {full_clean_filepath}")
+
+        # further modelling prep
+        df = self.replace_string_values(
+            df, 
+            replace_values = self.replace_values
+        )
+        df = self.clip_upper_limit(df, clip_upper = self.clip_upper)
 
         # csv for modelling
         df_model = df.drop(columns = self.drop_cols)

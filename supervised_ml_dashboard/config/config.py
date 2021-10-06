@@ -33,12 +33,9 @@ DROP_NA = ["AGE_YRS", "SYMPTOM_TEXT", "VAX_DATE", "ONSET_DATE"]
 IMPUTE_NA = {
     'DIED': 'N',
     'L_THREAT': 'N',
-    'ER_VISIT': 'N',
     'HOSPITAL': 'N',
-    'HOSPDAYS': 'N',
     'X_STAY': 'N',
     'DISABLE': 'N',
-    'OFC_VISIT': 'N',
     'ER_ED_VISIT': 'N',
 }
 
