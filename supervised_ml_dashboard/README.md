@@ -50,7 +50,7 @@ Run all cells to display the dashboard.
 
 
 
-Check out the detailed [user guide](user_guide/Supervised_Model_Dashboard.md) for further details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
+Check out the detailed [user guide](http://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised%20Model%20Dashboard.html) or (`user_guide`/`Supervised_Model_Dashboard.md`) for further details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
 
 ## EDA 
 
