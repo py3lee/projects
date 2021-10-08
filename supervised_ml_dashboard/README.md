@@ -89,9 +89,9 @@ This dashboard displays the following for a Supervised machine learning model:
 
 
 
-The Dashboard displays from a Jupyter notebook. 
+The Dashboard was written in the python programming language, and runs from a Jupyter notebook. The display is rendered using voila.  
 
-Open the [Supervised Model Dashboard notebook](notebook/Supervised_Model_Dashboard.ipynb) (`notebook` > `Supervised_Model_Dashboard.ipynb`)
+After setting up the [virtual environment](https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised_Model_Dashboard.md#environmentyml-file), open the [Supervised Model Dashboard notebook](notebook/Supervised_Model_Dashboard.ipynb) (`notebook` > `Supervised_Model_Dashboard.ipynb`)
 
 Run all cells to display the dashboard. 
 
@@ -109,4 +109,4 @@ Check out the detailed [user guide](http://htmlpreview.github.io/?https://github
 
 
 
-See the respective [Exploratory Data Analysis (EDA) notebooks](notebook/EDA) (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the `CustomIngestor`(src/preprocess/custom_ingestor.py) and `CustomPreprocessor`(src/preprocess/custom_preprocessor.py) python classes.  
+See the respective [Exploratory Data Analysis (EDA) notebooks](notebook/EDA) (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the [`CustomIngestor`](src/preprocess/custom_ingestor.py) and [`CustomPreprocessor`](src/preprocess/custom_preprocessor.py) python classes.  
