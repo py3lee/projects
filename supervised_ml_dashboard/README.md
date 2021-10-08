@@ -6,10 +6,9 @@
 
 # Supervised Model dashboard
 
-
+The Supervised Model Dashboard allows a user to quickly assess if a dataset is suitable for modelling. This dashboard was designed to display the evaluation results of a baseline supervised machine learning model, and explain some of the model predictions. The Dashboard is run from a jupyter notebook and the display is rendered via voila. 
 
 This dashboard displays the following for a Supervised machine learning model:
-
 
 
 **Binary classification problems**: 
@@ -82,7 +81,7 @@ This dashboard displays the following for a Supervised machine learning model:
 
 ![](user_guide/_static/sup_dashbrd/dashboard10.png)
 
-*Note: The numbered labels in the screenshots correspond to each widget in the custom python `Dashboard` class. For more details on the jupyter widgets, callback functions, process flow, please refer to the [user guide](http://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised%20Model%20Dashboard.html) or (`user_guide`/`Supervised_Model_Dashboard.md`).* 
+*Note: The numbered labels in the screenshots correspond to each widget in the custom python `Dashboard` class. For more details on the jupyter widgets, callback functions, process flow, please refer to the [user guide](http://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised%20Model%20Dashboard.html) or (`user_guide`>`Supervised_Model_Dashboard.md`).* 
 
 
 
@@ -102,7 +101,7 @@ Run all cells to display the dashboard.
 
 
 
-Check out the detailed [user guide](http://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised%20Model%20Dashboard.html) or (`user_guide`/`Supervised_Model_Dashboard.md`) for details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
+Check out the detailed [user guide](http://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/supervised_ml_dashboard/user_guide/Supervised%20Model%20Dashboard.html) or (`user_guide`>`Supervised_Model_Dashboard.md`) for details on the configuration settings, setup files, step-by-step walkthrough of all the displayed content, as well as the process flows for the classes. 
 
 
 
@@ -110,4 +109,4 @@ Check out the detailed [user guide](http://htmlpreview.github.io/?https://github
 
 
 
-See the respective [Exploratory Data Analysis (EDA) notebooks](notebook/EDA) (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the CustomIngestor and CustomPreprocessor classes.   
+See the respective [Exploratory Data Analysis (EDA) notebooks](notebook/EDA) (`notebook` > `EDA`) for the rationale and justification of the preprocessing steps in the `CustomIngestor`(src/preprocess/custom_ingestor.py) and `CustomPreprocessor`(src/preprocess/custom_preprocessor.py) python classes.  
