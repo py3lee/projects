@@ -1,12 +1,24 @@
+
+
 # Projects
 
-Here you'll find my previous projects organised into their respective folders.  
+Here you'll find my previous projects organized into their respective folders.  
 
 
 
 ## Supervised Model Dashboard
 
-The [Supervised Model Dashboard](supervised_ml_dashboard) allows a user to quickly assess if a dataset is suitable for modelling. This dashboard was designed to display the evaluation results of a baseline supervised machine learning model, and explain some of the model predictions. 
+Artificial intelligence and machine learning are buzzwords within healthcare nowadays. However, not enough people within the industry appreciate that it takes a combination of clinical research evidence, good quality large-scale datasets and machine learning technologies with the associated software infrastructure for us to harness the benefits of technology within healthcare.  Technology has to be utilized with the right intention and with the right systems in place for an appropriate problem statement. 
+
+
+
+Even if the prerequisite blocks are in place, someone would still need to explore the quality of the dataset and establish a baseline machine learning model to determine whether supervised machine learning would be feasible for a current problem statement. These prerequisite blocks include an appropriate problem statement that can be addressed by machine learning, having datasets in an appropriate format (i.e. tabular datasets) with sufficient quality and quantity, as well as the underlying clinical research evidence for the predictors included in the model. 
+
+![](supervised_ml_dashboard/user_guide/_static/sup_dashbrd/model_feasibility.png)
+
+
+
+The [Supervised Model Dashboard](supervised_ml_dashboard) was designed to provide some guidance to the question "Will supervised machine learning be feasible for this problem statement?".  Given an existing preprocessed/cleaned tabular dataset and an appropriate predictive modelling problem statement, it allows a user to quickly assess if a dataset is suitable for supervised machine learning; it can train and then display the evaluation results of a selected baseline supervised machine learning model and provide some explanations for the model predictions. 
 
 
 
@@ -24,6 +36,8 @@ The [Supervised Model Dashboard](supervised_ml_dashboard) allows a user to quick
 You can also find a series of [EDA notebooks](supervised_ml_dashboard/notebook/EDA) which detail the rationale and considerations for each of the steps undertaken in the `CustomIngestor` and `CustomPreprocessor` pipeline scripts. 
 
 - This series of jupyter notebooks cover each step of the pipeline - from ingestion of raw datasets till baseline model construction. 
+
+- This demo example was based on the [Vaccine Adverse Event Reporting System datasets](https://vaers.hhs.gov/data.html).
 
   
 
