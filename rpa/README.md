@@ -37,7 +37,7 @@ This repository contains the source code for a simple program that can automate 
 - Retrieve email password details from Windows Credentials, 
 - Read specifications from a `yaml` configuration file,
 - Download csv files from [yahoo finance](https://sg.finance.yahoo.com/) that contain the daily price data for a list of financial assets as specified in the configuration file for a specified date range,
-- Preprocess the csv files to obtained indexed price data, 
+- Preprocess the csv files to obtain price data indexed to the price at the start date (index to 100 at start date), 
 - Plot the indexed price data for each financial asset in an excel chart,
 - Add the indexed and raw price data for each financial asset as separate spreadsheets within the excel file,
 - Send an email alert to a specified email address if any of the indexed price data for any financial asset falls below a specified price threshold
