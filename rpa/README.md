@@ -42,14 +42,14 @@ This repository contains the source code for a simple program that can automate 
 - Add the indexed and raw price data for each financial asset as separate spreadsheets within the excel file,
 - Send an email alert to a specified email address if any of the indexed price data for any financial asset falls below a specified price threshold
 
-For practical reasons, the packaged program is not uploaded onto git. However, the `main.py` file can be packaged into an executable file using `pyinstaller` , which can then be triggered using Windows Task Scheduler - becoming 'Your friendly (mini) financial bot' :bar_chart:
+For practical reasons, the packaged program is not uploaded onto git. However, the `main.py` file can be packaged into an executable file using `pyinstaller` , which can then be triggered using Windows Task Scheduler - becoming 'Your friendly (mini) financial bot' :chart_with_upwards_trend:
 
 
 
 ## Notebook 
 
-See my [notebook](rpa/notebook/Example_rpa_use_case.ipynb) for a simple example on how to use a free tool ([TagUI](https://aisingapore.org/tagui/)) to automate the download of financial asset data.
+See my [notebook](notebook/Example_rpa_use_case.ipynb) for a simple example on how to use a free tool ([TagUI](https://aisingapore.org/tagui/)) to automate the download of financial asset data.
 
 - The notebook also includes:
   - the initial data exploration of the downloaded csv data for two (2) financial assets, Bitcoin and GLDM (a gold-backed exchange traded fund), 
-  - justification for each step of the data processing pipeline detailed in the [`CustomPreprocessor`](rpa/src/lib/custom_preprocessor.py) python script.  
+  - justification for each step of the data processing pipeline detailed in the [`CustomPreprocessor`](src/lib/custom_preprocessor.py) python script.  
