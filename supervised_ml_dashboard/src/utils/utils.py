@@ -1,5 +1,7 @@
 from datetime import datetime
+from IPython.terminal.ipapp import launch_new_instance
 import logging
+import sys
 
 def create_logger(log_path):
     """
@@ -23,3 +25,12 @@ def create_logger(log_path):
                         )
     logger = logging.getLogger(__name__)
     return logger
+
+def launch_dashboard():
+    """launch Supervised Model Dashboard notebook"""
+
+    sys.argv.append("notebook")
+    sys.argv.append("--NotebookApp.open_browser=True")
+    sys.argv.append("notebook/Supervised_Model_Dashboard.ipynb")
+
+    launch_new_instance()

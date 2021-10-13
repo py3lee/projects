@@ -9,7 +9,7 @@ import sys
 ##########
 from preprocess.custom_ingestor import CustomIngestor
 from preprocess.custom_preprocessor import CustomPreprocessor
-from utils.utils import create_logger
+from utils.utils import create_logger, launch_dashboard
 
 ################
 # CONFIGURATIONS
@@ -28,6 +28,7 @@ def main():
     - engineer required features,
     - create the composite target variable,
     - and all other custom preprocessing steps required to generate clean DataFrame for modelling phase. 
+    - launch jupyter notebook to display Supervised Model Dashboard
     """
 
     ingestor = CustomIngestor(cfg)
@@ -35,6 +36,8 @@ def main():
 
     preprocess = CustomPreprocessor(df, cfg)
     df_visualize, df_model = preprocess.run()
+
+    launch_dashboard()
 
 if __name__ == '__main__':
     log_path = Path(__file__).parents[1] / 'logs'
