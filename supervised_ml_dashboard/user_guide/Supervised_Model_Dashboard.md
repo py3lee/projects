@@ -929,7 +929,7 @@ The main event for 'Load and evaluate a trained model' is triggered when the use
 
 
 
-The displayed output are the same as the first main widget event, [Train and evaluate a model](#1.-Train-and-evaluate-a-model). However, to obtain the content for the dashboard, `load_and_evalute()` will first perform the following:
+The displayed output are the same as the first main widget event, [Train and evaluate a model](#1-train-and-evaluate-a-model). However, to obtain the content for the dashboard, `load_and_evalute()` will first perform the following:
 
 
 
@@ -1021,7 +1021,7 @@ Multi-label classification problems are beyond the scope of this dashboard.
 
 Additional classifiers have to be added to the `set_estimator()` method within the `SupervisedModel` class. 
 
-The options of the `model_type_widget` would also have to be edited to pass the name (in string format) of the new estimators to the `SupervisedModel` class during the main widget event ['Train and evaluate a model'](#1.-Train-and-evaluate-a-model). 
+The options of the `model_type_widget` would also have to be edited to pass the name (in string format) of the new estimators to the `SupervisedModel` class during the main widget event ['Train and evaluate a model'](#1-train-and-evaluate-a-model). 
 
 
 
