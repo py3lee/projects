@@ -188,7 +188,7 @@ class ExcelChart():
         chart.x_axis.number_format = date_format
         chart.x_axis.majorTimeUnit = date_unit
         
-        chart.height = 12
+        chart.height = 14
         chart.width = 25
         
         chart.add_data(data, titles_from_data=True)
@@ -222,7 +222,7 @@ class ExcelChart():
         excel = self.create_linechart(
             wb = excel,
             title = f"Indexed price history ({start_date} - {end_date})",
-            ytitle = f"% Change from {start_date}",
+            ytitle = f"Change in asset price relative to reference value on {start_date}",
             date_unit = "months",
             date_format = "mmm-yy"
         )

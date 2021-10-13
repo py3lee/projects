@@ -6,7 +6,7 @@ So you've placed some spare cash in some financial assets, but find it a chore t
 
 
 
-Meet Your Friendly (mini) Financial bot. 
+Meet **'Your Friendly (mini) Financial bot'**. 
 
 
 
@@ -14,9 +14,16 @@ Designed for the value investor, this program can be scheduled to run weekly or 
 
 
 
-*Example screenshot of an excel chart of indexed price history data from the program:*
+## Quick overview:
 
 ![](images/excel_chart.png)
+
+- Monitor any number of financial assets
+- Asset prices are indexed relative to a customizable start date (i.e. the date that you bought those financial assets)
+  - *asset prices will be indexed to 100 at the start date*
+- if no 'end date' is stated, historical price data from the start date till the current date will be obtained
+- Set your own price threshold to trigger email alerts, depending on your own risk appetite
+  - *For example, if set at '50', email alerts will be sent when the asset price falls below half the value of the reference price at the start date*
 
 
 
@@ -42,7 +49,7 @@ This repository contains the source code for a simple program that can automate 
 - Add the indexed and raw price data for each financial asset as separate spreadsheets within the excel file,
 - Send an email alert to a specified email address if any of the indexed price data for any financial asset falls below a specified price threshold
 
-For practical reasons, the packaged program is not uploaded onto git. However, the `main.py` file can be packaged into an executable file using `pyinstaller` , which can then be triggered using Windows Task Scheduler - becoming 'Your friendly (mini) financial bot' :chart_with_upwards_trend:
+For practical reasons, the packaged program is not uploaded onto git. However, the `main.py` file can be packaged into an executable file using `pyinstaller` , which can then be triggered using Windows Task Scheduler - becoming 'Your Friendly (mini) Financial bot' :chart_with_upwards_trend:
 
 
 
