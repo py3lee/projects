@@ -1,0 +1,639 @@
+---
+title: "Malaria datasets - Exploratory Data Analyses"
+output: 
+ html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.width=14, fig.height = 8)
+```
+
+# Introduction
+
+## What is malaria? 
+
+[Malaria is a vector-borne parasitic tropical disease, transmitted by the bite of the female *Anopheles* mosquito](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30324-6/fulltext).  Patients infected by one of the Plasmodium species can experience severe illness and death.
+
+
+# Primary problem statement 
+
+Is there any observable trend on the incidence of malaria and malaria-related deaths over the years? 
+
+## Dataset 
+Data Source: https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-11-13  
+
+3 Datasets:
+
+- malaria_inc.csv - Malaria incidence by country for all ages across the world across time
+- malaria_deaths.csv - Malaria deaths by country for all ages across the world and time.
+- malaria_deaths_age.csv - Malaria deaths by age across the world and time.
+
+note: unable to trace exact original data sources based on the data provided at https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-11-13.  
+
+## Data dictionary
+
+- Unable to locate. 
+- It seems like the [3 datasets](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018) are a compilation of variuous aggregate data sources from [Our World in Data](https://ourworldindata.org/malaria#data-sources), which, in turn, used data from various other online sources such as the [World Health Organisation](https://apps.who.int/gho/data/node.main.A1367?lang=en) and [Institute of Health Metrics and Evaluation (IHME), Global Burden of Disease (GBD)](http://ghdx.healthdata.org/gbd-results-tool).   
+
+## Dataset limitations  
+
+- The current limitations of this dataset (and this current analyses) are related to the data sources. Since the original data dictionary and original raw data sources was unable to be determined, we had to make assumptions on the representation of the values in the dataset.  
+
+## Assumptions in current analyses 
+
+- Assumptions in this current analysis
+  - Deaths are attributed to malaria, 
+  
+  - The 'Code' variable in the datasets represent the [3 letter ISO 3166-1 alpha-3 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3),  
+  
+  - SDI refers to ['Socio-demographic Index'](http://ghdx.healthdata.org/record/ihme-data/gbd-2015-socio-demographic-index-sdi-1980%E2%80%932015), which is a summary measure of a geography's socio-demographic development. It is based on average income per person, educational attainment, and total fertility rate (TFR).
+  
+  - [Malaria incidence rate (per 1 000 population at risk)](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670): refers to the number of malaria cases per 1000 population at risk per year. Population at risk is defined as population living in arease where malaria transmission occurs.  
+  
+
+  
+  - The composite variables/metrics in the current datasets, `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'`, were calculated with minimal error and are an accurate representation of the age-standardised malaria death rate (per 100,000 people) and malaria incidence (per 1,000 people) per year respectively.   
+  
+  - The baseline population estimates used for the calculation of composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` were based on the same population estimates for that particular entity/country for that particular year 
+  
+
+## Limitations of current analyses 
+
+- An important limitation of the current analyses is that the original data sources were not able to be cross-validated. 
+
+- Any preprocessing steps done prior to the 3 datasets retrieved from the [Github repo](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-11-13) are also not known. 
+
+- The definitions of malaria, case incidence of malaria and deaths attributable to malaria is also not known.   
+
+- More importantly, the exact calculation of the composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` is not known, and therefore it would be difficult to estimate or quantify the errors contained within this analysis.  
+
+In light of the limitations of the current analyses, statistical testing in this current analyses might lead to erroneous conclusions. This would be due to the lack of validation of the original data sources as well as the lack of understanding on how the composite metrics were determined. Statistical testing would therefore not be conducted for this current analyses.  
+
+
+# Prior data preprocessing steps:
+
+## **malaria_deaths.csv -> malaria_processed_deaths.csv: `deaths`**
+
+- Tidy up column names:
+  - lowercased all column names
+  - renamed column name for `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` to `'age_std_death_rate'`  
+  
+- Imputed the missing `'Code'` values for 'Wales', 'England', 'Scotland', 'Northern Ireland' as 'GBR' as they represent the same geographic region of the United Kingdom   
+
+- Added a new column `'entity_type'` to allow subsetting of entity types:  
+  - `'Region'` : aggregated geographic regions, 
+  - `'SDI`: Socio-demographic Index status  
+  - `'Country'`: entities with non-NA `'Code'` values  
+  - `'World'`: global aggregate, as indicated by entity value == 'World' 
+  
+## **malaria_deaths_age.csv -> malaria_deaths_age_processed.csv: `deaths_age`**  
+
+- Dropped the row index column `'Unnamed: 0'` as it does not provide any useful information.  
+
+- Imputed the missing `'Code'` values for 'Wales', 'England', 'Scotland', 'Northern Ireland' as 'GBR' as they represent the same geographic region of the United Kingdom   
+
+- Added a new column `'entity_type'` to allow subsetting of entity types:  
+  - `'Region'` : aggregated geographic regions, 
+  - `'SDI`: Socio-demographic Index status  
+  - `'Country'`: entities with non-NA `'Code'` values  
+  - `'World'`: global aggregate, as indicated by entity value == 'World' 
+
+## **malaria_inc.csv -> malaria_inc_processed.csv: `inc`**  
+
+- Tidy up column names:
+  - lowercased all column names
+  - renamed column name for `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` to `'malaria_incidence_1000'` 
+  
+- Added a new column `'entity_type'` to allow subsetting of entity types:  
+  - `'Region'` : aggregated geographic regions, 
+  - `'Country'`: entities with non-NA `'Code'` values,
+  - `'World'`: global aggregate, as indicated by entity value == 'World', 
+  - `'Income/Demographic`: grouping by income or demographic status. These are entities that contain the following terms: 
+    - 'Fragile and conflict affected situations',
+    - 'Heavily indebted poor countries (HIPC)',
+    - 'Late-demographic dividend',
+    - 'Least developed countries: UN classification',
+    - 'Low & middle income', 
+    - 'Low income', 
+    - 'Lower middle income',
+    - 'Middle income',
+    - 'Pre-demographic dividend',
+    - 'Upper middle income'
+
+
+# Import libraries
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+# Import datasets
+
+```{r}
+# working directory is the root folder of the Github repo
+deaths<- read.csv('../data/processed/malaria_deaths_processed.csv')
+deaths_age<-read.csv('../data/processed/malaria_deaths_age_processed.csv')
+inc<-read.csv('../data/processed/malaria_inc_processed.csv')
+```
+
+# Quick summary of the datasets after preprocessing
+
+## malaria_deaths.csv
+
+```{r}
+str(deaths)
+summary(deaths)
+```
+
+## malaria_deaths_age.csv
+
+```{r}
+str(deaths_age)
+summary(deaths_age)
+```
+
+## malaria_inc.csv
+
+```{r}
+str(inc)
+summary(inc)
+```
+
+# Global trends  
+
+What is the observable global trend of malaria deaths and malaria incidence rates over the years?  
+
+## Malaria incidence per 1,000 population at risk  
+
+Is there any observable trend for the global estimates of malaria incidence over time? 
+
+```{r}
+
+world_inc <-subset(
+  inc, 
+  inc$entity_type == 'World'
+)
+
+ggplot(world_inc, aes(x=year, y=malaria_incidence_1000, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Malaria incidence (per 1,000 population at risk)",
+    title ="Global estimates of malaria incidence (per 1,000 population at risk) from 2000 to 2015"
+  ) + 
+  geom_text(aes(label = round(malaria_incidence_1000, digits=0)), nudge_x =0.75) +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+
+It seems like there is a downward trend of global estimates of malaria incidence (per 1,000 population at risk) from 2000 to 2015. However, it also remains unknown if the decrease in malaria incidence from 158 (per 1,000 population at risk) in 2000 to 94 (per 1,000 population at risk) in 2015 is a meaningful trend,     
+
+Note that there are only 4 data points at years 2000, 2005, 2010 and 2015; there are insufficient data points to check for any statistically significant trend at this stage. Furthermore, in view of the limitations of the current analyses (see section `2.5 Limitations of current analyses`, statistical testing in this current analyses might lead to erroneous conclusions. This would be due to the lack of validation of the original data sources as well as the lack of understanding on how the composite metrics were determined.  
+
+## Age-standardized malaria death rate (per 100,000 people)  
+
+Is there any observable trend for the global estimates of age-standardised malaria death rate over time?
+
+```{r}
+world_deaths <-subset(
+  deaths, 
+  deaths$entity_type == 'World'
+)
+
+ggplot(world_deaths, aes(x=year, y=age_std_death_rate, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Age-standardized malaria death rate (per 100,000 people)",
+    title ="Global estimates of Age-standardized malaria death rate (per 100,000 people) from 1990 to 2016"
+  ) + 
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+
+It seems like there was an uptrend in the age-standardised malaria death rate per 100,000 people till 2003, and then there was a reversal of the trend to a downtrend from 2003 onwards. To understand this trend better, we would need to combine other sources of information - such as Malaria intervention and prevention programs and initiatives implemented by organisations such as the [World Health Organisation](https://www.who.int/teams/global-malaria-programme) as well as the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/our-work/programs/global-health/malaria) during this particular time period.  
+
+## Number of malaria deaths by age group
+
+Is there any observable trend for the global estimates of number of malaria deaths by age group over time?  
+
+
+```{r}
+
+world_deaths_age <-subset(
+  deaths_age, 
+  deaths_age$entity_type == 'World'
+)
+
+options(scipen=10000)
+
+ggplot(world_deaths_age, aes(x=year, y=deaths, group=age_group)) +
+  geom_line(aes(color=age_group), size=1.2) +
+  geom_point(aes(color=age_group), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Global estimates of number of malaria deaths by age group from 1990 to 2016"
+  ) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  scale_color_brewer(palette = "Set1") +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+Most of the malaria deaths from global estimates are from the 'Under 5' age group. Similar to the plot above for `Global estimates of Age-standardized malaria death rate (per 100,000 people) from 1990 to 2016`, it seems like there was an gradual uptrend till 2003; then there was a reversal of trend to a gradual downward trend from 2003 onwards.  
+
+However, the global estimates on the number of deaths still remain high at more than 500,000 malaria deaths/year for children Under 5 years old. 
+
+Let's examine the total global estimates of number of deaths by age group for the entire time period below: 
+
+```{r}
+total_deaths_age <- deaths_age %>% 
+  group_by(age_group) %>% 
+  summarise(total_deaths = sum(deaths))
+
+ggplot(total_deaths_age, aes(x = age_group, y = total_deaths, fill = age_group)) +
+  geom_bar(stat="identity") +
+  labs(
+    x = "Age Group", 
+    y = "Total number of deaths",
+    title ="Global estimates of total number of deaths by age group from 1990 to 2016"
+  ) + 
+  scale_fill_brewer(palette = "Set1") +
+  scale_y_continuous(labels = scales::comma) +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+There is a disproportionate number of malaria deaths in children younger than 5 years old. Let's examine the datasets by regions. 
+
+# Regional trends 
+
+Is there any observable regional trend of malaria deaths and malaria incidence rates over the years?  
+
+## Malaria incidence per 1,000 population at risk 
+
+Is there any observable trend for malaria incidence by regions? 
+
+```{r}
+region_inc <-subset(
+  inc, 
+  inc$entity_type == 'Region'
+)
+
+ggplot(region_inc, aes(x=year, y=malaria_incidence_1000, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Malaria incidence (per 1,000 population at risk)",
+    title ="Regional estimates of malaria incidence (per 1,000 population at risk) \n 2000 to 2015"
+  ) +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+It seems like there is a general downward trend for malaria incidence in Sub-Saharan Africa. Most of the malaria incidence also seems to occur in Sub-Saharan Africa.
+
+Unfortunately, as there is no access to the data dictionary for the datasets, the representation for the terms `IDA`, `IBRD`, `Early-demographic dividend` are not known. 
+- IBRD could refer to the [International Bank for Reconstruction and Development](https://www.worldbank.org/en/who-we-are/ibrd), 
+- IDA could refer to the [IDA Foundation](https://www.idafoundation.org/en/who-we-are). 
+However, beyond these postulations, it is not known that region or groupings these entities represent.  
+
+## Age-standardized malaria death rate (per 100,000 people) 
+
+Is there any observable regional trend for the age-standardized malaria death rate over time? 
+
+```{r}
+region_deaths <-subset(
+  deaths, 
+  deaths$entity_type == 'Region'
+)
+
+ggplot(region_deaths, aes(x=year, y=age_std_death_rate, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Age-standardized malaria death rate (per 100,000 people)",
+    title ="Regional estimates of Age-standardized malaria death rate (per 100,000 people) \n 1990 to 2016"
+  ) + 
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=18),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+
+Observations:
+- There are separate trends for Western Sub-Saharan Africa, Central Sub-Saharan Africa, Sub-Saharan Africa, Eastern Sub-Saharan Africa, and Oceania.   
+- Western Sub-Saharan Africa seems to have the highest age-standardized malaria death rate.  
+- There seems to be a downward trend in malaria death rate for the African regions from 2003 onwards.  
+
+From a quick online search, [Malaria is transmitted in tropical and subtropical areas](https://www.cdc.gov/malaria/about/distribution.html) 
+- these include areas such as Africa South of the Sahara and in parts of Oceania such as Papua New Guinea. However, without understanding the mapping of the countries to the regions used in the current datasets, it would be difficult to draw any comparisons with [existing literature](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3499992) at this stage.    
+
+As seen from the earlier global trends in `7.3 Global estimates of number of malaria deaths by age group, from 1990 to 2016`, there was a disproportionate number of deaths in young children under 5 years ago. 
+
+Let's explore if these trends differ by age groups and regions:  
+
+## Number of malaria deaths by age group 
+
+Are there separate trends for the number of malaria deaths by age group for the different regions? 
+
+```{r fig.width=14, fig.height = 20}
+# plot separate subplots as the facet plots will have too many overlapping points due to the disproportionate scales for 'Under 5'
+region_deaths_age_other <-subset(
+  deaths_age, 
+  deaths_age$entity_type == 'Region' & !deaths_age$age_group == 'Under 5'
+)
+
+options(scipen=10000)
+
+ggplot(region_deaths_age_other, aes(x=year, y=deaths, group=entity)) +
+  geom_line(aes(color=entity), size=0.7) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Regional estimates of number of malaria deaths \n by age group older than 5 years old, \n 1990 to 2016"
+  ) + 
+  facet_grid(age_group ~., scales='free_x', space='free') +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=18),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+
+```{r}
+# plot separate subplots as the facet plots will have too many overlapping points due to the disproportionate scales for 'Under 5'
+region_deaths_age_under5 <-subset(
+  deaths_age, 
+  deaths_age$entity_type == 'Region' & deaths_age$age_group == 'Under 5'
+)
+
+options(scipen=10000)
+
+ggplot(region_deaths_age_under5, aes(x=year, y=deaths, group=entity)) +
+  geom_line(aes(color=entity), size=1) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Regional estimates of number of malaria deaths for 'Under 5' age group \n 1990 to 2016"
+  ) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=18),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+Observations across the different subplots: 
+
+- most deaths are reported in African regions across all age groups, especially Sub-Saharan Africa,  
+
+- the trend for Sub-Saharan Africa and Western Sub-Saharan Africa seem to be similar.  
+
+- for Sub-Saharan Africa and the subset Western Sub-Saharan Africa:  
+
+  - it seems like there is a gradual observable uptrend for the number of deaths across all age groups from 1990 till the period of 2003-2005,  
+  
+  - and then there seems to be a slight downtrend for children and teenagers up till 14 from 2003-2005 onwards, and stabilisation of the numbers for the adults and teenagers aged 15 and above.  
+  
+  - however, the number of deaths in children younger than 5 years old in 2016 (353171) remain higher than the reported numbers in the same region in 1990 (288512).  
+
+So, although there is a global downtrend in the Age-standardized malaria death rate (per 100,000 people) from 2003 onwards (section 7.2), the number of malaria deaths in Africa still remain very high, especially in children under 5 years old in Sub-Saharan Africa.  
+
+- It is possible that these observable differences could likely be due to population growth in these regions during that time period. However, without population data, it is not possible to confirm such postulations.  
+
+Let's examine if the trends differ by income/demographic groupings:  
+
+# Trends by income/demographic groups
+
+What is the trend by income/demographic groupings over the years?
+
+## Malaria incidence per 1,000 population at risk
+
+Is there any observable trend for malaria incidence by income/demographic groupings? 
+
+```{r}
+income_inc <-subset(
+  inc, 
+  inc$entity_type == 'Income/Demographic'
+)
+
+ggplot(income_inc, aes(x=year, y=malaria_incidence_1000, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Malaria incidence (per 1,000 population at risk)",
+    title ="Estimates of malaria incidence (per 1,000 population at risk) \n by income/demographic groups from 2000 to 2015"
+  ) +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+
+[Demographic dividend](https://en.wikipedia.org/wiki/Demographic_dividend) is a technical term that is defined by the United Nations Population Fund. 
+
+However, in view of the lack of understanding of the categorisation of countries into the various income and demographic groups for this dataset, it is difficult to comment on the downward trend exhibited by the 'Pre-demographic dividend' entity.
+
+## Age-standardized malaria death rate (per 100,000 people)
+
+Is there any observable trend for age-standardized malaria death rate by income/demographic groupings? 
+
+```{r}
+sdi_deaths <-subset(
+  deaths, 
+  deaths$entity_type == 'SDI'
+)
+
+ggplot(sdi_deaths, aes(x=year, y=age_std_death_rate, group=entity)) +
+  geom_line(aes(color=entity), size=1.2) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Age-standardized malaria death rate (per 100,000 people)",
+    title ="Estimates of Age-standardized malaria death rate (per 100,000 people) by Socio-demographic Index \n 1990 to 2016"
+  ) + 
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  scale_color_brewer(palette = "Set1") +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+
+```
+
+## Number of malaria deaths by age group
+
+Is there any observable trend for estimates of the number of malaria deaths by income/demographic groupings? 
+
+```{r fig.width=14, fig.height = 20}
+# plot separate subplots as the facet plots will have too many overlapping points due to the disproportionate scales for 'Under 5'
+sdi_deaths_age_other <-subset(
+  deaths_age, 
+  deaths_age$entity_type == 'SDI' & !deaths_age$age_group == 'Under 5'
+)
+
+options(scipen=10000)
+
+ggplot(sdi_deaths_age_other, aes(x=year, y=deaths, group=entity)) +
+  geom_line(aes(color=entity), size=0.7) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Estimates of number of malaria deaths by age group older than 5 years old by Socio-demographic Index \n 1990 to 2016"
+  ) + 
+  facet_grid(age_group ~., scales='free_x', space='free') +
+  scale_color_brewer(palette = "Set1") +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+```{r}
+# plot separate subplots as the facet plots will have too many overlapping points due to the disproportionate scales for 'Under 5'
+sdi_deaths_age_under5 <-subset(
+  deaths_age, 
+  deaths_age$entity_type == 'SDI' & deaths_age$age_group == 'Under 5'
+)
+
+options(scipen=10000)
+
+ggplot(sdi_deaths_age_under5, aes(x=year, y=deaths, group=entity)) +
+  geom_line(aes(color=entity), size=1) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Estimates of number of malaria deaths for 'Under 5' age group by Socio-demographic Index \n from 1990 to 2016"
+  ) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_color_brewer(palette = "Set1") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+The high number of malaria deaths are mainly in low and low-middle Socio-Demographic Index countries. 
+
+Unfortunately, without understanding the mapping of the countries to the regions and groupings, it is difficult to explore these possible relationships further. 
+
+# What are the countries with the high numbers of malaria deaths?
+
+Subsetting by countries with age-standardized death rate > 100: 
+
+```{r}
+deaths_rate_100<-subset(deaths,
+                         deaths$age_std_death_rate > 100 & 
+                           deaths$entity_type == 'Country')
+unique(deaths_rate_100$entity)
+```
+
+There are too many countries to visualize. Try subsetting by absolute numbers instead:  
+
+```{r}
+deaths_50000<- subset(deaths_age,
+                         deaths_age$deaths > 50000 & 
+                           deaths_age$entity_type == 'Country')
+summary(deaths_50000$deaths)
+unique(deaths_50000$entity)
+unique(deaths_50000$age_group)
+```
+```{r}
+ggplot(deaths_50000, aes(x=year, y=deaths, group=entity)) +
+  geom_line(aes(color=entity), size=1) +
+  geom_point(aes(color=entity), size=3) + 
+  labs(
+    x = "Year", 
+    y = "Number of deaths",
+    title ="Estimates of the number of malaria deaths > 50,000 from 1990 to 2016"
+  ) + 
+  scale_y_continuous(labels = scales::comma) +
+  scale_color_brewer(palette = "Set1") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"),
+        plot.title = element_text(hjust = 0.5, size=20),
+        legend.text=element_text(size=11),
+        legend.title = element_blank())
+```
+
+Unfortunately it seems like a disproportionate number of malaria deaths occur in Nigeria and the Demographic Republic of Congo. All of these deaths are in children under 5 years old. 
+
+Addressing malaria and the provision of healthcare in these countries are [multi-faceted](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7026512) and [challenging](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-015-1024-5), and require further country-specific analyses to understand the issue in further detail. 
+
+# Considerations to improve the current analyses  
+
+1.**Understanding what was the extent to which the observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods in countries limited poor healthcare resources.** 
+
+- From the visualizations above of the regional trends and visualizations by income/demographic groups, a disproportionate number of malaria incidence and deaths occur in Africa or in poor/low income countries. 
+- The healthcare resources available in these countries are not known, but likely could be limited. 
+- From [previous literature](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30324-6/fulltext), the gold standard for malaria diagnosis involves microscopy analyses of stained blood films. However, rapid diagnostic kits are used for first-line investigation. 
+- These [rapid diganostic kits emerged in the early 1990s](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) but had variable field performance. 
+- The [WHO malaria rapid diagnostic test product testing programme only started in 2008](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) to evaluate the performance of such rapid diagnostic kits  
+- In this current analyses, just purely visualizing the trends of malaria incidence and malaria deaths over time without additional information on how the information and composite metrics were derived could result in erroneous conclusions.
+- Therefore, understanding and quantifying the extent to which the [observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6658057) would be able to improve the current analyses.  
+
+
+2. **Determining if the observed trends were statistically significant would reduce the risk of erroneous inferences from the observed trends.** 
+- In this current analyses, the exact calculation of the composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` was not known  
+- There was also a lack of validation of the original data sources  
+- It is likely that the [malaria incidence numbers](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670) and [malaria death rates](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/16) in the 3 datasets (of which this analysis was based on) were already adjusted estimates instead of actual reported numbers. 
+- Statistical testing was therefore not conducted to reduce the risk of any erroneous conclusions.    
+- Only visualizations were done, and observable trends were commented on. 
+
+
+3. **The current analyses can be improved by improving the utility of the problem statement to answer specific questions that have social/economic/policy-related implications. Further data can then be gathered and analyses conducted to address the problem statement.**  
+
+- Possible questions could be:  
+
+  - Did the implementation of a particular malaria prevention program in a particular region/country have any impact on the malaria incidence or number of malaria deaths in that particular region for that particular time period?   
+  
+  - Did the provision of insecticide-treated mosquito nets, indoor residual spraying and other vector control measures for a particular region at a particular point in time have any impact on the malaria incidence on that region for that time period?
