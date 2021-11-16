@@ -4,16 +4,16 @@ This repository was created to visualize time series trends for [3 malaria datas
 
 
 
-The initial exploration of the 3 datasets and considerations for preprocessing was done in python, and can be found in the jupyter notebook [`Python_1_EDA_malaria.ipynb`](analyses/Python_1_EDA_malaria.ipynb) 
+The initial exploration of the 3 datasets and considerations for preprocessing was done in python, and can be found in the jupyter notebook [`Python_1_EDA_malaria.ipynb`](analysis/Python_1_EDA_malaria.ipynb) 
 
-- The R implementation of the preprocessing steps can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analyses/RMarkdown_1_preprocessing_malaria.Rmd)
+- The R implementation of the preprocessing steps can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analysis/RMarkdown_1_preprocessing_malaria.Rmd)
 
 
 
 Data visualization for the 3 malaria datasets can be found in their respective files:
 
-- python implementation: [`Python_2_EDA_visualisation.ipynb`](analyses/Python_2_EDA_visualisation.ipynb)
-- R implementation: [`RMarkdown_2_EDA_malaria.Rmd`](analyses/RMarkdown_2_EDA_malaria.Rmd)
+- python implementation: [`Python_2_EDA_visualisation.ipynb`](analysis/Python_2_EDA_visualisation.ipynb)
+- R implementation: [`RMarkdown_2_EDA_malaria.Rmd`](analysis/RMarkdown_2_EDA_malaria.Rmd)
 
 
 
