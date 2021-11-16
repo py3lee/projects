@@ -13,7 +13,7 @@ The initial exploration of the 3 datasets and considerations for preprocessing w
 Data visualization for the 3 malaria datasets can be found in their respective files:
 
 - python implementation: [`Python_2_EDA_visualisation.ipynb`](analysis/Python_2_EDA_visualisation.ipynb)
-- R implementation: [`RMarkdown_2_EDA_malaria.Rmd`](analysis/RMarkdown_2_EDA_malaria.Rmd)
+- R implementation: [`RMarkdown_2_EDA_malaria.Rmd`](analysis/RMarkdown_2_EDA_malaria.Rmd), and the [rendered html](https://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/malaria/analysis/RMarkdown_2_EDA_malaria.html).
 
 
 
@@ -77,6 +77,7 @@ In light of the limitations of the current analyses, statistical testing in this
 
 
 - **Understanding what was the extent to which the observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods in countries limited poor healthcare resources.**
+  
   - From the visualizations above of the regional trends and visualizations by income/demographic groups, a disproportionate number of malaria incidence and deaths occur in Africa or in poor/low income countries.
   - The healthcare resources available in these countries are not known, but likely could be limited.
   - From [previous literature](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30324-6/fulltext), the gold standard for malaria diagnosis involves microscopy analyses of stained blood films. However, rapid diagnostic kits are used for first-line investigation.
@@ -84,9 +85,9 @@ In light of the limitations of the current analyses, statistical testing in this
   - The [WHO malaria rapid diagnostic test product testing programme only started in 2008](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) to evaluate the performance of such rapid diagnostic kits
   - In this current analyses, just purely visualizing the trends of malaria incidence and malaria deaths over time without additional information on how the information and composite metrics were derived could result in erroneous conclusions.
   - Therefore, understanding and quantifying the extent to which the [observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6658057) would be able to improve the current analyses.
-
   
-
+  
+  
 - **Determining if the observed trends were statistically significant would reduce the risk of erroneous inferences from the observed trends.**
   - In this current analyses, the exact calculation of the composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` was not known
   - There was also a lack of validation of the original data sources
@@ -95,6 +96,14 @@ In light of the limitations of the current analyses, statistical testing in this
   - Only visualizations were done, and observable trends were commented on.
 
   
+
+- **If the [malaria incidence numbers](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670) and [malaria death rates](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/16) in the 3 datasets (of which this analysis was based on) were indeed point estimates instead of actual reported numbers, the visualizations would be improved if the line charts also contained the 95% confidence intervals, to quantify the level of uncertainty in the visualized trends**.
+
+
+
+- **If the mappings of the categories to the aggregate groups are known (for example, the exact countries included in countries categorized as 'Low SDI'), then we can also visualize percentage contributions of each country in the time series charts.** 
+
+
 
 - **The current analyses can be improved by improving the utility of the problem statement to answer specific questions that have social/economic/policy-related implications. Further data can then be gathered and analyses conducted to address the problem statement.**
 
