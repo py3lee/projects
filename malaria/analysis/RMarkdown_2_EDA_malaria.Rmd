@@ -611,29 +611,40 @@ Addressing malaria and the provision of healthcare in these countries are [multi
 
 # Considerations to improve the current analyses  
 
-1.**Understanding what was the extent to which the observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods in countries limited poor healthcare resources.** 
+- **Understanding what was the extent to which the observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods in countries limited poor healthcare resources.**
 
-- From the visualizations above of the regional trends and visualizations by income/demographic groups, a disproportionate number of malaria incidence and deaths occur in Africa or in poor/low income countries. 
-- The healthcare resources available in these countries are not known, but likely could be limited. 
-- From [previous literature](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30324-6/fulltext), the gold standard for malaria diagnosis involves microscopy analyses of stained blood films. However, rapid diagnostic kits are used for first-line investigation. 
-- These [rapid diganostic kits emerged in the early 1990s](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) but had variable field performance. 
-- The [WHO malaria rapid diagnostic test product testing programme only started in 2008](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) to evaluate the performance of such rapid diagnostic kits  
-- In this current analyses, just purely visualizing the trends of malaria incidence and malaria deaths over time without additional information on how the information and composite metrics were derived could result in erroneous conclusions.
-- Therefore, understanding and quantifying the extent to which the [observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6658057) would be able to improve the current analyses.  
+  - From the visualizations above of the regional trends and visualizations by income/demographic groups, a disproportionate number of malaria incidence and deaths occur in Africa or in poor/low income countries.
+  - The healthcare resources available in these countries are not known, but likely could be limited.
+  - From [previous literature](https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)30324-6/fulltext), the gold standard for malaria diagnosis involves microscopy analyses of stained blood films. However, rapid diagnostic kits are used for first-line investigation.
+  - These [rapid diganostic kits emerged in the early 1990s](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) but had variable field performance.
+  - The [WHO malaria rapid diagnostic test product testing programme only started in 2008](https://malariajournal.biomedcentral.com/articles/10.1186/s12936-019-3028-z) to evaluate the performance of such rapid diagnostic kits
+  - In this current analyses, just purely visualizing the trends of malaria incidence and malaria deaths over time without additional information on how the information and composite metrics were derived could result in erroneous conclusions.
+  - Therefore, understanding and quantifying the extent to which the [observed trends in malaria incidence and malaria deaths over time could be attributed to better reporting and better malaria diagnosis methods](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6658057) would be able to improve the current analyses.
 
-
-2. **Determining if the observed trends were statistically significant would reduce the risk of erroneous inferences from the observed trends.** 
-- In this current analyses, the exact calculation of the composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` was not known  
-- There was also a lack of validation of the original data sources  
-- It is likely that the [malaria incidence numbers](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670) and [malaria death rates](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/16) in the 3 datasets (of which this analysis was based on) were already adjusted estimates instead of actual reported numbers. 
-- Statistical testing was therefore not conducted to reduce the risk of any erroneous conclusions.    
-- Only visualizations were done, and observable trends were commented on. 
-
-
-3. **The current analyses can be improved by improving the utility of the problem statement to answer specific questions that have social/economic/policy-related implications. Further data can then be gathered and analyses conducted to address the problem statement.**  
-
-- Possible questions could be:  
-
-  - Did the implementation of a particular malaria prevention program in a particular region/country have any impact on the malaria incidence or number of malaria deaths in that particular region for that particular time period?   
   
-  - Did the provision of insecticide-treated mosquito nets, indoor residual spraying and other vector control measures for a particular region at a particular point in time have any impact on the malaria incidence on that region for that time period?
+
+- **Determining if the observed trends were statistically significant would reduce the risk of erroneous inferences from the observed trends.**
+
+  - In this current analyses, the exact calculation of the composite metrics `'Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate) (per 100,000 people)'` and `'Incidence of malaria (per 1,000 population at risk) (per 1,000 population at risk)'` was not known
+  - There was also a lack of validation of the original data sources
+  - It is likely that the [malaria incidence numbers](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670) and [malaria death rates](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/16) in the 3 datasets (of which this analysis was based on) were already adjusted estimates instead of actual reported numbers.
+  - Statistical testing was therefore not conducted to reduce the risk of any erroneous conclusions.
+  - Only visualizations were done, and observable trends were commented on.
+
+  
+
+- **If the [malaria incidence numbers](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/4670) and [malaria death rates](https://www.who.int/data/gho/indicator-metadata-registry/imr-details/16) in the 3 datasets (of which this analysis was based on) were indeed point estimates instead of actual reported numbers, the visualizations would be improved if the line charts also contained the 95% confidence intervals, to quantify the level of uncertainty in the visualized trends**.
+
+
+
+- **If the mappings of the categories to the aggregate groups are known (for example, the exact countries included in countries categorized as 'Low SDI'), then we can also visualize percentage contributions of each country in the time series charts.** 
+
+
+
+- **The current analyses can be improved by improving the utility of the problem statement to answer specific questions that have social/economic/policy-related implications. Further data can then be gathered and analyses conducted to address the problem statement.**
+
+  
+
+  - Possible questions could be:
+    - Did the implementation of a particular malaria prevention program in a particular region/country have any impact on the malaria incidence or number of malaria deaths in that particular region for that particular time period?
+    - Did the provision of insecticide-treated mosquito nets, indoor residual spraying and other vector control measures for a particular region at a particular point in time have any impact on the malaria incidence on that region for that time period?
