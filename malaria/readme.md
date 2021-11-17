@@ -4,23 +4,24 @@ This repository was created to visualize time series trends for [3 malaria datas
 
 
 
-The initial exploration of the 3 datasets and considerations for preprocessing was done in python, and can be found in the jupyter notebook [`Python_1_EDA_malaria.ipynb`](analysis/Python_1_EDA_malaria.ipynb) 
+The initial exploration of the 3 datasets and considerations for preprocessing was done in python, and can be found in the jupyter notebook [`Python_1_EDA_malaria.ipynb`](analysis/Python_1_EDA_malaria.ipynb). 
 
-- The R implementation of the preprocessing steps can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analysis/RMarkdown_1_preprocessing_malaria.Rmd)
+- The Python data pipeline script for the preprocessing steps can be found in [main.py](src/main.py) (`src>main.py`). This script uses the dependent scripts [`malaria_custom_preprocessor.py`](src/lib/malaria_custom_preprocessor.py) and [`utils.py`](src/lib/utils.py) in the `src>lib` folder. 
 
+- The R implementation of the data preprocessing steps can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analysis/RMarkdown_1_preprocessing_malaria.Rmd).
 
+## Data visualization  
 
 Data visualization for the 3 malaria datasets can be found in their respective files:
 
 - python implementation: [`Python_2_EDA_visualisation.ipynb`](analysis/Python_2_EDA_visualisation.ipynb)
 - R implementation: [`RMarkdown_2_EDA_malaria.Rmd`](analysis/RMarkdown_2_EDA_malaria.Rmd), and the [rendered html](https://htmlpreview.github.io/?https://github.com/py3lee/projects/blob/main/malaria/analysis/RMarkdown_2_EDA_malaria.html).
-
+- You can also visualize the number of malaria deaths across the years via this web [app](https://malariadatasets.herokuapp.com). The source code for the app is available in this [repository](https://github.com/py3lee/malariaapp). 
 
 
 # Primary problem statement
 
 Is there any observable trend on the incidence of malaria and malaria-related deaths over the years?
-
 
 
 ## Dataset
