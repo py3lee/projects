@@ -40,7 +40,7 @@ class CustomPreprocessor():
         :return: a list of absolute filepaths to load as DataFrames
         :rtype: list
         """
-        full_folder_path = Path(__file__).parents[2] / folder_path
+        full_folder_path = Path(__file__).parents[3] / folder_path
 
         df_list = [
             file 
@@ -251,18 +251,27 @@ class CustomPreprocessor():
         logger.debug(f"malaria_inc.csv post processing: {inc.info()}")
 
         # save processed csv files
-        processed_folder = Path(__file__).parents[2] / self.folder_path
+        processed_folder = Path(__file__).parents[3] / self.folder_path
         deaths.to_csv(
             f"{processed_folder}/processed/malaria_deaths_processed.csv", 
             index=False
+        )
+        logger.info(
+            f"File saved: {processed_folder}/processed/malaria_deaths_processed.csv"
         )
         deaths_age.to_csv(
             f"{processed_folder}/processed/malaria_deaths_age_processed.csv", 
             index=False
         )
+        logger.info(
+            f"Filed saved: {processed_folder}/processed/malaria_deaths_age_processed.csv"
+        )
         inc.to_csv(
             f"{processed_folder}/processed/malaria_inc_processed.csv", 
             index=False
+        )
+        logger.info(
+            f"File saved: {processed_folder}/processed/malaria_inc_processed.csv"
         )
 
         return deaths, deaths_age, inc

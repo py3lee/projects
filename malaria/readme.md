@@ -6,9 +6,11 @@ This repository was created to visualize time series trends for [3 malaria datas
 
 The initial exploration of the 3 datasets and considerations for preprocessing was done in python, and can be found in the jupyter notebook [`Python_1_EDA_malaria.ipynb`](analysis/Python_1_EDA_malaria.ipynb). 
 
-- The Python data pipeline script for the preprocessing steps can be found in [main.py](src/main.py) (`src>main.py`). This script uses the dependent scripts [`malaria_custom_preprocessor.py`](src/lib/malaria_custom_preprocessor.py) and [`utils.py`](src/lib/utils.py) in the `src>lib` folder. 
+- The Python data pipeline script for the preprocessing steps can be found in [`main.py`](src/python/main.py) (`src > python > main.py`). This script uses the dependent scripts [`malaria_custom_preprocessor.py`](src/python/lib/malaria_custom_preprocessor.py) and [`utils.py`](src/python/lib/utils.py) in the `src > python > lib` folder. 
+- The R data pipeline script for the ingestion and preprocessing steps can be found in [main.R](src/R/main.R) (`src > R > main.R`). This script uses the dependent script [`helper_functions.R`](src/R/helper_functions.R) in the `src > R` folder. 
+  - Cleaning and validation of the data preprocessing steps in R can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analysis/RMarkdown_1_preprocessing_malaria.Rmd).
 
-- The R implementation of the data preprocessing steps can be found in the RMarkdown file [`RMarkdown_1_preprocessing_malaria.Rmd`](analysis/RMarkdown_1_preprocessing_malaria.Rmd).
+> Note that for both pipeline scripts, the working directory to launch the main pipeline script is the malaria folder (i.e. `projects > malaria`) of this `projects` Github repository
 
 
 

@@ -256,3 +256,287 @@ write.csv(deaths, '../data/processed/R/malaria_deaths_processed.csv', row.names 
 write.csv(deaths_age, '../data/processed/R/malaria_deaths_age_processed.csv', row.names = FALSE)
 write.csv(inc, '../data/processed/R/malaria_inc_processed.csv', row.names = FALSE)
 ```
+
+# Convert to a R pipeline 
+
+## Define all required functions 
+
+### read csv from url
+
+```{r}
+# read csv from github url stated in the configuration file
+
+read_csv_from_url<- function(url) {
+  
+  tryCatch(
+    expr = {
+      
+      dataframe<- read.csv(
+        url, 
+        na.strings=c("NA","NaN", " ", "")
+      )
+      
+      message(paste('Successfully read csv from url: ', url))
+      
+      return(dataframe)
+    },
+    error = function(e){ 
+      
+      message(paste('Error reading csv from url: ', url))
+      
+    }
+  )
+}
+```
+
+### Preprocessing functions
+
+#### helper functions 
+
+```{r}
+# set_entity_type: function to set the entity_type based on multiple conditions: 
+# if entity is 'World', set entity_type to 'World, 
+# if code is not na, set entity_type to 'Country',
+# if code is na and entity contains the characters 'SDI', set entity_type as 'SDI',
+# if code is na and entity contains a list of income/demographic terms, set entity)type as 'Income/Demographic'
+
+set_entity_type <- function(dataframe, income_demo) {
+  
+  dataframe <- dataframe  %>% mutate(entity_type = case_when(
+    
+    dataframe$entity == 'World' ~ 'World',
+    !is.na(dataframe$code) ~ 'Country',
+    is.na(dataframe$code) & grepl('SDI', dataframe$entity) ~ 'SDI',
+    is.na(dataframe$code) & dataframe$entity %in% income_demo ~ 'Income/Demographic',
+    TRUE ~ 'Region' # else statement
+  ))
+  
+  return(dataframe)
+}
+
+# set_uk_code: function to set code as 'GBR' if code is na and if the entity contains the terms in uk_entity list
+set_uk_code <- function(dataframe, uk_entity) {
+  
+  dataframe[(is.na(dataframe$code)) & (dataframe$entity %in% uk_entity), 
+     "code"] <- 'GBR'
+  
+  return(dataframe)
+}
+
+# rename specific column names
+rename_specific_cols<- function(dataframe){
+  
+  if (
+    'deaths...malaria...sex..both...age..age.standardized..rate...per.100.000.people.' %in% colnames(dataframe)
+    ) {
+    
+    dataframe <- rename(
+      dataframe, 
+      age_std_death_rate = deaths...malaria...sex..both...age..age.standardized..rate...per.100.000.people.
+    )
+  }
+  
+  else if (
+    'incidence.of.malaria..per.1.000.population.at.risk...per.1.000.population.at.risk.' %in% colnames(dataframe)
+  ) {
+    dataframe <- rename(
+      dataframe,
+      malaria_incidence_1000 = incidence.of.malaria..per.1.000.population.at.risk...per.1.000.population.at.risk.
+    )
+  }
+  
+  return (dataframe)
+  
+}
+
+# drop row index if present 
+drop_row_index <-function(dataframe){
+  
+  if ('X' %in% colnames(dataframe)){
+    
+    dataframe <- subset(dataframe, select = -c(X))
+    
+  }
+  return(dataframe)
+}
+```
+
+#### main preprocessing function to preprocess the 3 dataframes
+
+```{r}
+preprocess<- function(dataframe){
+  
+  clean_dataframe<- dataframe %>%
+    drop_row_index() %>%
+    rename_all(tolower) %>%
+    rename_specific_cols() %>%
+    set_uk_code(., uk_entity) %>%
+    set_entity_type(., income_demo)
+  
+  return(clean_dataframe)
+}
+
+```
+
+##### Checking preprocess function on deaths dataframe  
+
+```{r}
+deaths_clean<-preprocess(deaths)
+
+str(deaths_clean)
+
+# Checking that column values have not been inadvertently altered in the pipe
+
+cat('\nAre the "entity" column values identical in the cleaned and original dataframes?')
+identical(
+  deaths_clean[['entity']], 
+  deaths[['Entity']]
+)
+
+cat('\nNumber of rows with code GBR and their entity names:\n')
+
+deaths_clean %>% 
+  filter(code == 'GBR') %>%
+  select(c(code, entity)) %>%
+  table()
+
+cat('\nAre the "year" column values identical in the cleaned and original dataframes?')
+identical(
+  deaths_clean[['year']], 
+  deaths[['Year']]
+)
+
+cat('\nAre the "age_std_death_rate" column values identical in the cleaned and original dataframes?')
+identical(
+  deaths_clean[['age_std_death_rate']], 
+  deaths[['Deaths...Malaria...Sex..Both...Age..Age.standardized..Rate...per.100.000.people.']]
+)
+
+cat('\nNumber of rows for each entity_type:\n')
+table(deaths_clean['entity_type'])
+
+```
+
+##### Checking preprocess function on deaths_age dataframe  
+
+```{r}
+
+deaths_age_clean<-preprocess(deaths_age)
+
+str(deaths_age_clean)
+
+# Checking that column values have not been inadvertently altered in the pipe
+
+cat('\nAre the "entity" column values identical in the cleaned and original dataframes?')
+identical(
+  deaths_age_clean[['entity']], 
+  deaths_age[['entity']]
+)
+
+cat('\nNumber of rows with code GBR and their entity names:\n')
+deaths_age_clean %>% 
+  filter(code == 'GBR') %>%
+  select(c(code, entity)) %>%
+  table()
+
+cat('\nAre the "year" column values identical in the cleaned and original dataframes?')
+identical(
+  deaths_age_clean[['year']], 
+  deaths_age[['year']]
+)
+
+cat('\nNumber of rows for each age group:\n')
+table(deaths_age_clean['age_group'])
+
+cat('\nNumber of rows for each entity_type:\n')
+table(deaths_age_clean['entity_type'])
+
+```
+
+##### Checking preprocess function on inc dataframe    
+  
+```{r}
+inc_clean<- preprocess(inc)
+
+str(inc_clean)
+
+# Checking that column values have not been inadvertently altered in the pipe
+
+cat('\nAre the "entity" column values identical in the cleaned and original dataframes?')
+identical(
+  inc_clean[['entity']], 
+  inc[['Entity']]
+)
+
+cat('\nAre the "code" column values identical in the cleaned and original dataframes?')
+identical(
+  inc_clean[['code']], 
+  inc[['Code']]
+)
+
+cat('\nAre the "year" column values identical in the cleaned and original dataframes?')
+identical(
+  inc_clean[['year']], 
+  inc[['Year']]
+)
+
+cat('\nAre the "malaria_incidence_1000" column values identical in the cleaned and original dataframes?')
+identical(
+  inc_clean[['malaria_incidence_1000']], 
+  inc[['Incidence.of.malaria..per.1.000.population.at.risk...per.1.000.population.at.risk.']]
+)
+
+cat('\nNumber of rows for each entity_type:\n')
+table(inc_clean['entity_type'])
+
+```
+
+
+# Main function to run pipeline functions
+
+## Install packages if required, then load libraries 
+
+```{r}
+# Check if required packages are in the list of installed packages. if not, to install the new packages. 
+
+list_of_packages <- c("dplyr")
+new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
+if(length(new_packages)) install.packages(new_packages)
+
+library(dplyr)
+
+## Load configuration variables 
+source("../config/config.R")
+
+```
+
+## read csv files from url
+
+```{r}
+
+main<- function(){
+  
+  # read csv files from urls stated in configuration files 
+  deaths<- read_csv_from_url(deaths_url)
+  deaths_age<- read_csv_from_url(deaths_age_url)
+  inc<- read_csv_from_url(inc_url)
+  
+  deaths<-preprocess(deaths)
+  deaths_age<-preprocess(deaths_age)
+  inc<-preprocess(inc)
+  
+  # save as csv files 
+  write.csv(deaths, clean_deaths_path, row.names = FALSE)
+  write.csv(deaths_age, clean_deaths_age_path, row.names = FALSE)
+  write.csv(inc, clean_inc_path, row.names = FALSE)
+  
+}
+
+```
+
+```{r}
+# if (!interactive()) {
+#  main()
+#}
+```
+
