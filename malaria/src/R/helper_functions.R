@@ -9,13 +9,13 @@ read_csv_from_url<- function(url) {
         na.strings=c("NA","NaN", " ", "")
       )
       
-      message(paste('Successfully read csv from url: ', url))
+      log_info(paste('Successfully read csv from url: ', url))
       
       return(dataframe)
     },
     error = function(e){ 
       
-      message(paste('Error reading csv from url: ', url))
+      log_info(paste('Error reading csv from url: ', url))
       
     }
   )
