@@ -81,6 +81,18 @@ Can we leverage on technology to minimize the repetitive computer-related admini
 
 
 
+## Data analysis and visualization 
+
+- [Malaria](https://github.com/py3lee/projects/tree/main/malaria): Data analysis and visualization, data pipeline construction in python and R using 3 malaria datasets
+  - [Dash app](https://github.com/py3lee/malariaapp) built to visualize the malaria datasets
+- [Google Analytics Capstone Case Study](https://github.com/py3lee/google_analytics_capstone) : Data analysis and visualization in R using the 2021 public Chicago [Divvy Bicycle Sharing data](https://divvy-tripdata.s3.amazonaws.com/index.html)
+
+
+
+---
+
+
+
 I'm still working on adding content to this repository.
 
 Any comments, feedback and suggestions for improvement are welcome - please do drop me a message!  
