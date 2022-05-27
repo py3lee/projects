@@ -93,6 +93,14 @@ Can we leverage on technology to minimize the repetitive computer-related admini
 
 
 
+## Online calculator 
+
+[Model-based Physical Frailty Phenotype](https://py3lee.shinyapps.io/frailty_shiny/), an online calculator created using the R Shiny framework.
+
+---
+
+
+
 I'm still working on adding content to this repository.
 
 Any comments, feedback and suggestions for improvement are welcome - please do drop me a message!  
